@@ -118,3 +118,45 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom scrollbar styles */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(212 212 212) rgb(245 245 245);
+}
+
+.dark * {
+  scrollbar-color: rgb(64 64 64) rgb(10 10 10);
+}
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgb(245 245 245);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgb(212 212 212);
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgb(163 163 163);
+}
+
+.dark *::-webkit-scrollbar-track {
+  background: rgb(10 10 10);
+}
+
+.dark *::-webkit-scrollbar-thumb {
+  background: rgb(64 64 64);
+  border-radius: 4px;
+}
+
+.dark *::-webkit-scrollbar-thumb:hover {
+  background: rgb(82 82 82);
+}
