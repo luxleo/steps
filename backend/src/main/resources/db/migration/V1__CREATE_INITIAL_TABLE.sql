@@ -7,6 +7,7 @@ CREATE TABLE member (
                               password_hash VARCHAR(255) NOT NULL,
                               name          VARCHAR(100) NOT NULL,
                               profile_image_url VARCHAR(500),
+                              role         VARCHAR(30),
                               created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -19,7 +20,6 @@ CREATE TABLE project (
                          name         VARCHAR(200) NOT NULL,
                          description  TEXT,
                          created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                         role         VARCHAR(30),
                          CONSTRAINT fk_project_owner
                              FOREIGN KEY (owner_id) REFERENCES member(id)
                                  ON DELETE CASCADE

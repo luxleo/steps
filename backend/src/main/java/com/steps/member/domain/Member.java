@@ -20,6 +20,7 @@ public class Member extends BaseTimeEntity {
     private String email;
     @Column(name = "password_hash")
     private String password;
+    @Column(name = "profile_image_url")
     private String profileImageUrl;
     @Enumerated(EnumType.STRING)
     private MemberRole role;
