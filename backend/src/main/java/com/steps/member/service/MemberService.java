@@ -1,5 +1,6 @@
 package com.steps.member.service;
 
+import com.steps.common.domain.BaseTimeEntity;
 import com.steps.member.domain.Member;
 import com.steps.member.domain.repository.MemberRepository;
 import com.steps.member.dto.request.MemberCreateRequest;
@@ -12,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
-public class MemberService {
+public class MemberService extends BaseTimeEntity {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
@@ -25,6 +26,12 @@ public class MemberService {
                 .password(passwordEncoder.encode(request.password()))
                 .build();
         Member createdMember = memberRepository.save(newMember);
-        return new MemberCreateResponse(createdMember.getId(), createdMember.getEmail());
+        return MemberCreateResponse.from(createdMember);
+    }
+
+    public Member findMemberByEmail(String email) {
+        //TODO: redis에서 email로 등록된 유저 id 먼저 조회후 있으면 id로 조회, 없으면 인덱스 이용
+        return memberRepository.findByEmail(email)
+                .orElseThrow();
     }
 }

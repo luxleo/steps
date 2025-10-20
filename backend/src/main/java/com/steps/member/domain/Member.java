@@ -1,5 +1,6 @@
 package com.steps.member.domain;
 
+import com.steps.common.domain.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import java.util.Objects;
 @Getter
 @Table(name = "member")
 @Entity
-public class Member {
+public class Member extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
@@ -29,6 +30,6 @@ public class Member {
         this.email = email;
         this.password = password;
         this.profileImageUrl = "";
-        this.role = Objects.isNull(role) ? MemberRole.USER : role;
+        this.role = Objects.isNull(role) ? MemberRole.ROLE_USER : role;
     }
 }
