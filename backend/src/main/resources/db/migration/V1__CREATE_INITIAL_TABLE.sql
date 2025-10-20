@@ -19,6 +19,7 @@ CREATE TABLE project (
                          name         VARCHAR(200) NOT NULL,
                          description  TEXT,
                          created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                         role         VARCHAR(30),
                          CONSTRAINT fk_project_owner
                              FOREIGN KEY (owner_id) REFERENCES member(id)
                                  ON DELETE CASCADE
