@@ -1,7 +1,7 @@
 -- =========================================================
 -- USERS
 -- =========================================================
-CREATE TABLE user_account (
+CREATE TABLE member (
                               id            BIGINT AUTO_INCREMENT PRIMARY KEY,
                               email         VARCHAR(255) NOT NULL UNIQUE,
                               password_hash VARCHAR(255) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE project (
                          description  TEXT,
                          created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                          CONSTRAINT fk_project_owner
-                             FOREIGN KEY (owner_id) REFERENCES user_account(id)
+                             FOREIGN KEY (owner_id) REFERENCES member(id)
                                  ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -37,7 +37,7 @@ CREATE TABLE project_member (
                                     FOREIGN KEY (project_id) REFERENCES project(id)
                                         ON DELETE CASCADE,
                                 CONSTRAINT fk_member_user
-                                    FOREIGN KEY (user_id) REFERENCES user_account(id)
+                                    FOREIGN KEY (user_id) REFERENCES member(id)
                                         ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -77,10 +77,10 @@ CREATE TABLE task (
                           FOREIGN KEY (section_id) REFERENCES section(id)
                               ON DELETE SET NULL,
                       CONSTRAINT fk_task_assignee
-                          FOREIGN KEY (assignee_id) REFERENCES user_account(id)
+                          FOREIGN KEY (assignee_id) REFERENCES member(id)
                               ON DELETE SET NULL,
                       CONSTRAINT fk_task_created_by
-                          FOREIGN KEY (created_by) REFERENCES user_account(id)
+                          FOREIGN KEY (created_by) REFERENCES member(id)
                               ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -97,7 +97,7 @@ CREATE TABLE task_comment (
                                   FOREIGN KEY (task_id) REFERENCES task(id)
                                       ON DELETE CASCADE,
                               CONSTRAINT fk_comment_author
-                                  FOREIGN KEY (author_id) REFERENCES user_account(id)
+                                  FOREIGN KEY (author_id) REFERENCES member(id)
                                       ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -112,12 +112,11 @@ CREATE TABLE notification (
                               entity_id     BIGINT NULL,
                               title         VARCHAR(200),
                               body          TEXT,
-                              metadata      JSON,
                               is_read       BOOLEAN DEFAULT FALSE,
                               created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                               delivered_at  TIMESTAMP NULL,
                               CONSTRAINT fk_notification_recipient
-                                  FOREIGN KEY (recipient_id) REFERENCES user_account(id)
+                                  FOREIGN KEY (recipient_id) REFERENCES member(id)
                                       ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -131,12 +130,11 @@ CREATE TABLE activity_log (
                               entity_type VARCHAR(30) NOT NULL, -- PROJECT, TASK, COMMENT, USER
                               entity_id   BIGINT NULL,
                               action      VARCHAR(100) NOT NULL,
-                              metadata    JSON,
                               created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                               CONSTRAINT fk_activity_project
                                   FOREIGN KEY (project_id) REFERENCES project(id)
                                       ON DELETE CASCADE,
                               CONSTRAINT fk_activity_user
-                                  FOREIGN KEY (user_id) REFERENCES user_account(id)
+                                  FOREIGN KEY (user_id) REFERENCES member(id)
                                       ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
