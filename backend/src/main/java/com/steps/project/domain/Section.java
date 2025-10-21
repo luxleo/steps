@@ -1,38 +1,39 @@
 package com.steps.project.domain;
 
 import com.steps.common.domain.BaseTimeEntity;
-import com.steps.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "section")
 @Entity
-@Table(name = "project")
-public class Project extends BaseTimeEntity {
+public class Section extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id")
-    private Member owner;
+    @JoinColumn(name = "project_id")
+    private Project project;
 
     private String name;
 
     private String description;
 
+    @Column(name = "order_index")
+    private Integer order;
+
     @Builder
-    public Project(Long id, Member owner, String name, String description) {
+    public Section(Long id, Project project, String name, String description, Integer order) {
         this.id = id;
-        this.owner = owner;
+        this.project = project;
         this.name = name;
         this.description = description;
-    }
-
-    public void changeOwner(Member newOwner) {
-        this.owner = newOwner;
+        this.order = Objects.isNull(order) ? 0 : order;
     }
 }

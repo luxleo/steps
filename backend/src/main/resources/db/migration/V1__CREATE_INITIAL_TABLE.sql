@@ -49,7 +49,8 @@ CREATE TABLE section (
                          id           BIGINT AUTO_INCREMENT PRIMARY KEY,
                          project_id   BIGINT NOT NULL,
                          name         VARCHAR(200) NOT NULL,
-                         order_index  INT NOT NULL DEFAULT 0,
+                         description  TEXT,
+                         order_index  INT NOT NULL DEFAULT NOT NULL,
                          created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                          CONSTRAINT fk_section_project
                              FOREIGN KEY (project_id) REFERENCES project(id)
@@ -64,11 +65,10 @@ CREATE TABLE task (
                       project_id    BIGINT NOT NULL,
                       section_id    BIGINT NULL,
                       assignee_id   BIGINT NULL,
-                      created_by    BIGINT NOT NULL,
                       title         VARCHAR(255) NOT NULL,
                       description   TEXT,
-                      status VARCHAR(20) NOT NULL, -- TODO, DOING, DONE
-                      priority TINYINT DEFAULT 0,
+                      status VARCHAR(20) NOT NULL, -- OPEN,  IN_PROGRESS,  DONE
+                      -- priority TINYINT DEFAULT 0,
                       due_date DATE NULL,
                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                       CONSTRAINT fk_task_project
@@ -79,10 +79,7 @@ CREATE TABLE task (
                               ON DELETE SET NULL,
                       CONSTRAINT fk_task_assignee
                           FOREIGN KEY (assignee_id) REFERENCES member(id)
-                              ON DELETE SET NULL,
-                      CONSTRAINT fk_task_created_by
-                          FOREIGN KEY (created_by) REFERENCES member(id)
-                              ON DELETE CASCADE
+                              ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =========================================================

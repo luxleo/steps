@@ -6,9 +6,12 @@ import com.steps.project.domain.Project;
 import com.steps.project.domain.repository.ProjectRepository;
 import com.steps.project.dto.request.ProjectCreateRequest;
 import com.steps.project.dto.response.ProjectCreateResponse;
+import com.steps.project.dto.response.ProjectListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -24,6 +27,7 @@ public class ProjectService {
      * @param request
      * @return
      */
+    @Transactional
     public ProjectCreateResponse createProject(String ownerEmail, ProjectCreateRequest request) {
         Member owner = memberService.findMemberByEmail(ownerEmail);
         Project newProject = projectRepository.save(
@@ -34,5 +38,13 @@ public class ProjectService {
                 .build()
         );
         return ProjectCreateResponse.from(newProject);
+    }
+
+
+    public List<ProjectListResponse> findProjectsForMember(Long memberId) {
+        //TODO: 이후 본인 소유 프로젝트 + 초대된 프로젝트 합해서 반환하기
+        return projectRepository.findAllByOwnerId(memberId).stream()
+                .map(ProjectListResponse::from)
+                .toList();
     }
 }
