@@ -4,13 +4,13 @@ import com.steps.member.domain.Member;
 import com.steps.project.domain.Project;
 
 public class ProjectFixture {
-    public static final Project A_PROJECT_1 = Project.builder()
-            .name("A Project 1")
-            .description("A Project 1 Description")
+    public static final Project A_PROJECT = Project.builder()
+            .name("A Project")
+            .description("A Project Description")
             .build();
-    public static final Project A_PROJECT_2 = Project.builder()
-            .name("A Project 2")
-            .description("A Project 2 Description")
+    public static final Project B_PROJECT = Project.builder()
+            .name("B Project")
+            .description("B Project Description")
             .build();
 
     public static Project allocateOwner(Project targetProject, Member owner) {

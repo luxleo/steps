@@ -1,6 +1,7 @@
 package com.steps.project.domain;
 
 import com.steps.common.domain.BaseTimeEntity;
+import com.steps.project.dto.request.SectionUpdateRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -35,5 +36,26 @@ public class Section extends BaseTimeEntity {
         this.name = name;
         this.description = description;
         this.order = Objects.isNull(order) ? 0 : order;
+    }
+
+    public void changeOrder(Integer newOrder) {
+        this.order = Objects.isNull(newOrder) ? 0 : newOrder;
+    }
+
+    public void simpleUpdate(SectionUpdateRequest request) {
+        changeName(request.name());
+        changeDescription(request.description());
+    }
+
+    private void changeName(String newName) {
+        this.name = newName;
+    }
+
+    private void changeDescription(String newDescription) {
+        this.description = newDescription;
+    }
+
+    public void changeProject(Project newProject) {
+        if (Objects.nonNull(newProject)) this.project = newProject;
     }
 }
